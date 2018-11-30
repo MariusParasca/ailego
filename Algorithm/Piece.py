@@ -28,6 +28,7 @@ class Piece:
             self.y = y
             self.z = z
             self.orientation = orientation
+            self.setSize()
 
     def setSize(self):
         if self.orientation == False:
@@ -36,15 +37,4 @@ class Piece:
         else:                                                   # acesta nu vom mai tine cont mereu de orientarea piesei
             self.size_x = self.PIECES_TYPES[self.piece_type][1] # ci doar de dimensiunea acesteia
             self.size_y = self.PIECES_TYPES[self.piece_type][0]
-    
-    def getPieceType(self):
-        if self.orientation == False:
-            for i in range(len(self.PIECES_TYPES)):
-                if self.x == self.PIECES_TYPES[i][0] and self.y == self.PIECES_TYPES[i][1]:
-                    return i
-        else:
-            for i in range(len(self.PIECES_TYPES)):
-                if self.x == self.PIECES_TYPES[i][1] and self.y == self.PIECES_TYPES[i][0]:
-                    return i
-    
     
