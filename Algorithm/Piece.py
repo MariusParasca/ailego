@@ -28,7 +28,7 @@ class Piece:
             self.y = y
             self.z = z
             self.orientation = orientation
-            self.setSize()
+        self.setSize()
 
     def setSize(self):
         if self.orientation == False:
