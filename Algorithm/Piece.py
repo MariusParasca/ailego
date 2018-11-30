@@ -37,4 +37,3 @@ class Piece:
         else:                                                   # acesta nu vom mai tine cont mereu de orientarea piesei
             self.size_x = self.PIECES_TYPES[self.piece_type][1] # ci doar de dimensiunea acesteia
             self.size_y = self.PIECES_TYPES[self.piece_type][0]
-    
