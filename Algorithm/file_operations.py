@@ -1,6 +1,6 @@
 import csv
 
-def importData(path):
+def import_data(path):
     input_pieces = []
     csv_file = open(path)
     csv_reader = csv.reader(csv_file, delimiter=',')
