@@ -1,5 +1,6 @@
 import csv
 
+
 def import_data(path):
     input_pieces = []
     csv_file = open(path)
