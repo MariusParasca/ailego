@@ -1,5 +1,5 @@
 import os.path
-from file_operations import import_data
+from file_operations import import_data, export_data
 from piece import Piece
 
 
@@ -84,6 +84,7 @@ def merge_input_pieces(input_pieces):
 if __name__ == '__main__':
     input_pieces = import_data(os.path.join(os.path.dirname(os.path.realpath(__file__)),'input.csv'))
     pieces = merge_input_pieces(input_pieces)
+    export_data('output.csv', pieces)
     print(input_pieces)
     for layer in pieces:
         for piece in layer:

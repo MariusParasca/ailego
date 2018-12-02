@@ -47,6 +47,11 @@ class Piece:
                ", orientation=" + str(self.orientation) + ", color=" + self.color
 
 
+    def serialize(self):                                            # de ce (x,z,y)? pentru ca y ar fi inaltimea...
+        return str(self.piece_type) + ", " + str(self.x)  + ", " + str(self.z) + ", " + str(self.y) + \
+            ", " + self.color + ", " + ("1\n" if self.orientation else "0\n")
+
+
     def is_valid_merge(self, piece):
         if self.piece_type == piece.piece_type:
             if self.orientation == piece.orientation:
