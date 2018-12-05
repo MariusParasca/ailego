@@ -86,6 +86,9 @@ if __name__ == '__main__':
     pieces = merge_input_pieces(input_pieces)
     export_data('output.csv', pieces)
     print(input_pieces)
+    dic = {}
     for layer in pieces:
         for piece in layer:
             print(piece)
+            dic[(piece.x, piece.y, piece.z)] = piece.export()
+    print(dic)

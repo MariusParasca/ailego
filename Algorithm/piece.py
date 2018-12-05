@@ -49,14 +49,26 @@ class Piece:
 
     def serialize(self):                                            # de ce (x,z,y)? pentru ca y ar fi inaltimea...
         return str(self.piece_type) + ", " + str(self.x)  + ", " + str(self.z) + ", " + str(self.y) + \
-            ", " + self.color + ", " + ("1\n" if self.orientation else "0\n")
+               ", " + self.color + ", " + ("1\n" if self.orientation else "0\n")
 
 
     def is_valid_merge(self, piece):
-        if self.piece_type == piece.piece_type:
+        if self.piece_type == piece.piece_type and self.color == piece.color:
             if self.orientation == piece.orientation:
                 if self.x == piece.x and ((self.y + 1 == piece.y) or (self.y - 1) == piece.y):
                     return True
                 if self.y == piece.y and ((self.x + 1 == piece.x) or (self.x - 1) == piece.x):
                     return True
         return False
+
+
+    def export(self):
+        txt = []
+        for i in range(0, self.PIECES_TYPES[self.piece_type][0]):
+            for j in range(0, self.PIECES_TYPES[self.piece_type][1]):
+                if self.orientation == True:
+                    txt.append((self.x+i, self.y+j, self.z))
+                else:
+                    txt.append((self.x+j, self.y+i, self.z))
+        return txt
+
