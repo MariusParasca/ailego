@@ -1,0 +1,1 @@
+Pentru editarea arhitecturi se poate uploada fisierul arhitectura.html pe site-ul: https://www.draw.io/
