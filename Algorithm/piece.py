@@ -53,7 +53,7 @@ class Piece:
             if self.orientation == piece.orientation:
                 if self.x == piece.x and ((self.y + 1 == piece.y) or (self.y - 1) == piece.y):
                     return True
-                if self.y == piece.y and ((self.x + 1 == piece.x) or (self.x - 1) == piece.x):
+                if self.y == piece.y and ((self.x + 1 == pqiece.x) or (self.x - 1) == piece.x):
                     return True
         return False
 
