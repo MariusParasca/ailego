@@ -5,17 +5,12 @@ from model import Model
 
 
 def break_input_in_layers(input_pieces):
-    layer = []
+    max = 0
     for piece in input_pieces:
-        if layer == []:
-            layer.append(piece)
-        elif layer[-1][2] == piece[2]:
-            layer.append(piece)
-        else:
-            yield Layer(layer)
-            layer = []
-            layer.append(piece)
-    yield Layer(layer)
+        if piece[2] > max:
+            max = piece[2]
+    for i in range(max+1):
+        yield Layer(list(filter(lambda x : x[2] == i, input_pieces)))
 
 
 def merge_input_pieces(input_pieces):
