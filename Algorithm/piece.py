@@ -45,7 +45,7 @@ class Piece:
                ", orientation=" + str(self.orientation) + ", color=" + self.color
 
     def serialize(self):
-        return str(self.piece_type) + ", " + str(self.x)  + ", " + str(self.z) + ", " + str(self.y) + \
+        return str(self.piece_type) + ", " + str(self.y)  + ", " + str(self.z) + ", " + str(self.x) + \
                ", " + self.color + ", " + ("1\n" if self.orientation else "0\n")
 
     def is_valid_merge(self, piece):
@@ -53,7 +53,7 @@ class Piece:
             if self.orientation == piece.orientation:
                 if self.x == piece.x and ((self.y + 1 == piece.y) or (self.y - 1) == piece.y):
                     return True
-                if self.y == piece.y and ((self.x + 1 == pqiece.x) or (self.x - 1) == piece.x):
+                if self.y == piece.y and ((self.x + 1 == piece.x) or (self.x - 1) == piece.x):
                     return True
         return False
 
