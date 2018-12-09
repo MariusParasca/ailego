@@ -31,7 +31,7 @@ def merge_input_pieces(input_pieces):
 if __name__ == '__main__':
     input_pieces = import_data(os.path.join(os.path.dirname(os.path.realpath(__file__)),'input.csv'))
     model = merge_input_pieces(input_pieces)
-    export_data('output.csv', model)
+    export_data(os.path.join(os.path.dirname(os.path.realpath(__file__)),r'..\..\AI_Interface\input.csv'), model)
 
     for layer in model.model:
-       [print(piece) for piece in layer.merged_pieces]
+[print(piece) for piece in layer.merged_pieces]
