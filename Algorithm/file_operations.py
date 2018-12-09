@@ -12,5 +12,5 @@ def import_data(path):
 
 def export_data(path, model):
     with open(path, 'w+') as fd:
-        for layer in model.model:
+        for layer in model.layers:
             [fd.write(piece.serialize()) for piece in layer.merged_pieces]

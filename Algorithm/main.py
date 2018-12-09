@@ -18,7 +18,7 @@ def merge_input_pieces(input_pieces):
     orientation = False
     for layer in break_input_in_layers(input_pieces):
         layer.merge_pieces(orientation)
-        model.model.append(layer)
+        model.layers.append(layer)
         orientation = not orientation
     return model
 
@@ -28,5 +28,5 @@ if __name__ == '__main__':
     model = merge_input_pieces(input_pieces)
     export_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'), model)
 
-    for layer in model.model:
+    for layer in model.layers:
         [print(piece) for piece in layer.merged_pieces]
