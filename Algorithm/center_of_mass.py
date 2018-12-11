@@ -16,4 +16,11 @@ def break_layer(layers):
                 current_layer = piece.z
             if piece.z == current_layer:
                 pieces_on_current_layer.append(piece)
-        
+        center_of_mass(pieces_on_current_layer)
+
+
+def center_of_mass(pieces):
+    contour = set()
+    for piece in pieces:
+        contour.add((piece.x, piece.y))
+    print('in center_of_mass', contour)
