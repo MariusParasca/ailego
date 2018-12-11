@@ -23,18 +23,20 @@ def break_layer(layers):
 
 
 def contour(pieces):
-    contour = set()
+    layer_contour = set()
+    types = ((1, 1), (1, 2), (1, 3), (1, 4), (1, 6), (1, 8), (2, 2), (2, 3), (2, 4), (2, 6), (2, 8))
     for piece in pieces:
-        contour.add((piece.x, piece.y))
-    print('in center_of_mass', contour)
-    return contour
+        layer_contour.add((piece.x, piece.y))
+        layer_contour.add((piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1]))
+    print('in center_of_mass', layer_contour)
+    return layer_contour
 
 
-def center_of_mass(contour):
+def center_of_mass(layer_contour):
     x = 0
     y = 0
     number = 0
-    for x_y in contour:
+    for x_y in layer_contour:
         print('x_y ', x_y)
         x = x + x_y[0]
         y = y + x_y[1]
