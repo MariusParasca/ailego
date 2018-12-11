@@ -1,8 +1,9 @@
 import os.path
-from file_operations import import_data, export_data
-from layer import Layer
-from model import Model
-from graph_stability_method import create_stability_graph
+from Algorithm.file_operations import import_data, export_data
+from Algorithm.layer import Layer
+from Algorithm.model import Model
+from Algorithm.center_of_mass import *
+# from graph_stability_method import create_stability_graph
 
 def break_input_in_layers(input_pieces):
     max = 0
@@ -36,5 +37,12 @@ if __name__ == '__main__':
     #     array.append(dic)
     # print(dic)
     # create_stability_graph(array)
+
+    # for center of masss using geometry
+
+    is_structure_stable(model.layers)
+    print('main')
+    # ends here
+
     for layer in model.layers:
-        [print(piece) for piece in layer.merged_pieces]
+       [print(piece) for piece in layer.merged_pieces]
