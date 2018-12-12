@@ -17,7 +17,7 @@ def is_structure_stable(layers):
         distances.append(distance_3d([centers_of_mass[i][0], centers_of_mass[i][1], i],
                                      [centers_of_mass[i + 1][0], centers_of_mass[i + 1][1], i + 1]))
     coeff = center_of_mass_coefficient(distances)
-    if -1 < coeff < 1:
+    if -0.5 < coeff < 0.5:
         print('-----stable-----')
         return 1
     else:
@@ -71,7 +71,9 @@ def center_of_mass_coefficient(distances):
         auxiliary = []
         for i in range(0, len(list_of_distances) - 1):
             auxiliary.append(list_of_distances[i] - list_of_distances[i+1])
-        print('list of distances before getting coefficient:', list_of_distances)
-        print('after: ', auxiliary)
+        print('trying to get the coefficient of a structure: ', auxiliary)
+        for i in range(0,len(auxiliary)):
+            if auxiliary[i] < 0:
+                auxiliary[i] = -auxiliary[i]
         list_of_distances = auxiliary
-    return list_of_distances[0] + 1
+    return list_of_distances[0]
