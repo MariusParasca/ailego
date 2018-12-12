@@ -1,8 +1,20 @@
+import math
+
+
 def is_structure_stable(layers):
     for layer in layers:
         [print(piece) for piece in layer.merged_pieces]
     centers_of_mass = break_layer(layers)
     print(centers_of_mass)
+    distances = []
+    if len(centers_of_mass) == 1:
+        print('only one layer in the structure. The structure is stable.')
+        return 1
+    for i in range(0, len(centers_of_mass) - 2):
+        distances.append(distance_3d([centers_of_mass[i][0], centers_of_mass[i][1], i], [centers_of_mass[i + 1][0],
+                                                                                         centers_of_mass[i + 1][1], i]))
+    print('distances between centers of mass: ', distances)
+    return 1
 
 
 def break_layer(layers):
@@ -25,7 +37,7 @@ def contour(pieces):
     for piece in pieces:
         layer_contour.add((piece.x, piece.y))
         layer_contour.add((piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1]))
-    print('in center_of_mass', layer_contour)
+    print('contour points: ', layer_contour)
     return layer_contour
 
 
@@ -34,12 +46,11 @@ def center_of_mass(layer_contour):
     y = 0
     number = 0
     for x_y in layer_contour:
-        print('x_y ', x_y)
         x = x + x_y[0]
         y = y + x_y[1]
         number += 1
-    return [int(x/number), int(y/number)]
+    return [int(x / number), int(y / number)]
 
 
-#def distance_3d(set(x1, y1, z1), set(x2, y2, z2)):
-
+def distance_3d(point1, point2):
+    return math.sqrt((point1[0] - point2[1]) ^ 2 + (point1[1] - point2[1]) ^ 2 + (point1[2] - point2[2]) ^ 2)
