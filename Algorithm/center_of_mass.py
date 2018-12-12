@@ -5,9 +5,7 @@ def is_structure_stable(layers):
     for layer in layers:
         [print(piece) for piece in layer.merged_pieces]
     centers_of_mass = break_layer(layers)
-    centers_of_mass.append([2, 2])
-    centers_of_mass.append([3, 4])
-    print(centers_of_mass)
+    print('centers of mass:', centers_of_mass)
     distances = []
 
     if len(centers_of_mass) == 1:
@@ -44,7 +42,9 @@ def contour(pieces):
     types = ((1, 1), (1, 2), (1, 3), (1, 4), (1, 6), (1, 8), (2, 2), (2, 3), (2, 4), (2, 6), (2, 8))
     for piece in pieces:
         layer_contour.add((piece.x, piece.y))
+        layer_contour.add((piece.x, piece.y + types[piece.piece_type][1]))
         layer_contour.add((piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1]))
+        layer_contour.add((piece.x + types[piece.piece_type][0], piece.y))
     print('contour points: ', layer_contour)
     return layer_contour
 
@@ -61,7 +61,8 @@ def center_of_mass(layer_contour):
 
 
 def distance_3d(point1: object, point2: object) -> object:
-    print('points: ', point1, point2)
+    #print('points: ', point1, point2)
+    #print('distance between points: ', math.sqrt(math.pow((point1[0] - point2[0]),2) + math.pow((point1[1] - point2[1]), 2) + math.pow((point1[2] - point2[2]), 2)))
     return math.sqrt(math.pow((point1[0] - point2[0]),2) + math.pow((point1[1] - point2[1]), 2) + math.pow((point1[2] - point2[2]), 2))
 
 
@@ -69,11 +70,17 @@ def center_of_mass_coefficient(distances):
     list_of_distances = distances
     while len(list_of_distances) > 1:
         auxiliary = []
-        for i in range(0, len(list_of_distances) - 1):
-            auxiliary.append(list_of_distances[i] - list_of_distances[i+1])
+        #for i in range(0, len(list_of_distances) - 1):
+        #    auxiliary.append(list_of_distances[i] - list_of_distances[i+1])
+        #for i in range(0,len(auxiliary)):
+        #    if auxiliary[i] < 0:
+        #        auxiliary[i] = -auxiliary[i]
+        auxiliary.append(list_of_distances[0] - list_of_distances[1])
+        if auxiliary[0] < 0:
+            auxiliary[0] = -auxiliary[0]
+        for i in range(2, len(list_of_distances)):
+            auxiliary.append(list_of_distances[i])
+
         print('trying to get the coefficient of a structure: ', auxiliary)
-        for i in range(0,len(auxiliary)):
-            if auxiliary[i] < 0:
-                auxiliary[i] = -auxiliary[i]
         list_of_distances = auxiliary
     return list_of_distances[0]
