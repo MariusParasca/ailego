@@ -51,6 +51,49 @@ def create_nodes(G, layers_):
         for piece in layers_[i].merged_pieces:
             G.add_node(piece)
 
+def dfs(graph, start):
+    visited = []
+    visited.append(start)
+    stack = set()
+    for el in graph[start]:
+        stack.add(el)
+        break
+
+    while stack:
+        nod = stack.pop()
+        if nod not in visited:
+            visited.append(nod)
+            for el in graph[nod]:
+                if el not in visited:
+                    stack.add(el)
+                    break
+    return len(visited)
+
+def check_graph_stability(G):
+    '''gr = nx.Graph()
+    gr.add_node('A')
+    gr.add_node('B')
+    gr.add_node('C')
+    gr.add_node('D')
+    gr.add_node('E')
+    gr.add_node('F')
+
+    gr.add_edge('A', 'B')
+    gr.add_edge('A', 'E')
+    gr.add_edge('B', 'C')
+    #gr.add_edge('B', 'E')
+    gr.add_edge('C', 'E')
+    gr.add_edge('C', 'D')
+    gr.add_edge('E', 'D')
+    gr.add_edge('D', 'F')
+    gr.add_edge('E', 'F')'''
+    gr = G
+    for node in gr.nodes:
+        #print(node)
+        #print(dfs(gr, node))
+        if dfs(gr, node) != len(gr.nodes):
+            return False
+    return True
 
 def create_stability_graph(layers_):
     G = nx.Graph()
@@ -65,6 +108,7 @@ def create_stability_graph(layers_):
                     G.add_edge(piece1, piece2)
     nx.draw(G)
     plt.show()
+    #check_graph_stability(G)
     return G
 
 
