@@ -1,5 +1,8 @@
 import math
 
+global_layer = 0
+weight = 0
+
 
 def is_structure_stable(layers):
     for layer in layers:
@@ -12,10 +15,11 @@ def is_structure_stable(layers):
         print('only one layer in the structure. The structure is stable.')
         return 1
     for i in range(0, len(centers_of_mass) - 1):
-        distances.append(distance_3d([centers_of_mass[i][0], centers_of_mass[i][1], i],
-                                     [centers_of_mass[i + 1][0], centers_of_mass[i + 1][1], i + 1]))
-    coeff = center_of_mass_coefficient(distances)
-    if -0.5 < coeff < 0.5:
+        distances.append(distance_3d([centers_of_mass[i][0], centers_of_mass[i][1], centers_of_mass[i][2]],
+                                     [centers_of_mass[i + 1][0], centers_of_mass[i + 1][1], centers_of_mass[i + 1][2]]))
+    coeff = center_of_mass_coefficient(distances) / global_layer
+    print('final coefficient: ', coeff)
+    if 0.3 < coeff < 1:
         print('-----stable-----')
         return 1
     else:
@@ -53,11 +57,14 @@ def center_of_mass(layer_contour):
     x = 0
     y = 0
     number = 0
+
     for x_y in layer_contour:
         x = x + x_y[0]
         y = y + x_y[1]
         number += 1
-    return [int(x / number), int(y / number)]
+    global global_layer
+    global_layer += 1
+    return [x / number, y / number, global_layer - 0.5]
 
 
 def distance_2d(point1, point2):
@@ -65,9 +72,11 @@ def distance_2d(point1, point2):
 
 
 def distance_3d(point1: object, point2: object) -> object:
-    #print('points: ', point1, point2)
-    #print('distance between points: ', math.sqrt(math.pow((point1[0] - point2[0]),2) + math.pow((point1[1] - point2[1]), 2) + math.pow((point1[2] - point2[2]), 2)))
-    return math.sqrt(math.pow((point1[0] - point2[0]),2) + math.pow((point1[1] - point2[1]), 2) + math.pow((point1[2] - point2[2]), 2))
+    print('points: ', point1, point2)
+    print('distance between points: ', math.sqrt(math.pow((point1[0] - point2[0]),2) + math.pow((point1[1] - point2[1]), 2) + math.pow((point1[2] - point2[2]), 2)))
+    global weight
+    weight += 0.5
+    return math.sqrt(math.pow((point1[0] - point2[0]),2) + math.pow((point1[1] - point2[1]), 2) + math.pow((point1[2] - point2[2] * weight), 2))
 
 
 def center_of_mass_coefficient(distances):
@@ -79,7 +88,7 @@ def center_of_mass_coefficient(distances):
         #for i in range(0,len(auxiliary)):
         #    if auxiliary[i] < 0:
         #        auxiliary[i] = -auxiliary[i]
-        auxiliary.append(list_of_distances[0] - list_of_distances[1])
+        auxiliary.append(list_of_distances[0] - list_of_distances[1] - 1)
         if auxiliary[0] < 0:
             auxiliary[0] = -auxiliary[0]
         for i in range(2, len(list_of_distances)):
