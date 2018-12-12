@@ -38,11 +38,14 @@ if __name__ == '__main__':
     # print(dic)
     # create_stability_graph(array)
 
-    # for center of masss using geometry
 
+
+    # for center of masss using geometry
     is_structure_stable(model.layers)
-    print('main')
+    #print('main')
     # ends here
+
+
 
     for layer in model.layers:
        [print(piece) for piece in layer.merged_pieces]
