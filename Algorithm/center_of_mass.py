@@ -5,16 +5,24 @@ def is_structure_stable(layers):
     for layer in layers:
         [print(piece) for piece in layer.merged_pieces]
     centers_of_mass = break_layer(layers)
+    centers_of_mass.append([2, 2])
+    centers_of_mass.append([3, 4])
     print(centers_of_mass)
     distances = []
+
     if len(centers_of_mass) == 1:
         print('only one layer in the structure. The structure is stable.')
         return 1
-    for i in range(0, len(centers_of_mass) - 2):
-        distances.append(distance_3d([centers_of_mass[i][0], centers_of_mass[i][1], i], [centers_of_mass[i + 1][0],
-                                                                                         centers_of_mass[i + 1][1], i]))
-    print('distances between centers of mass: ', distances)
-    return 1
+    for i in range(0, len(centers_of_mass) - 1):
+        distances.append(distance_3d([centers_of_mass[i][0], centers_of_mass[i][1], i],
+                                     [centers_of_mass[i + 1][0], centers_of_mass[i + 1][1], i + 1]))
+    coeff = center_of_mass_coefficient(distances)
+    if -1 < coeff < 1:
+        print('-----stable-----')
+        return 1
+    else:
+        print('-----NOT-stable-----')
+        return 0
 
 
 def break_layer(layers):
@@ -52,5 +60,18 @@ def center_of_mass(layer_contour):
     return [int(x / number), int(y / number)]
 
 
-def distance_3d(point1, point2):
-    return math.sqrt((point1[0] - point2[1]) ^ 2 + (point1[1] - point2[1]) ^ 2 + (point1[2] - point2[2]) ^ 2)
+def distance_3d(point1: object, point2: object) -> object:
+    print('points: ', point1, point2)
+    return math.sqrt(math.pow((point1[0] - point2[0]),2) + math.pow((point1[1] - point2[1]), 2) + math.pow((point1[2] - point2[2]), 2))
+
+
+def center_of_mass_coefficient(distances):
+    list_of_distances = distances
+    while len(list_of_distances) > 1:
+        auxiliary = []
+        for i in range(0, len(list_of_distances) - 1):
+            auxiliary.append(list_of_distances[i] - list_of_distances[i+1])
+        print('list of distances before getting coefficient:', list_of_distances)
+        print('after: ', auxiliary)
+        list_of_distances = auxiliary
+    return list_of_distances[0] + 1
