@@ -53,7 +53,7 @@ class Layer:
         for i in range(len(pieces) - 1):
             for j in range(i + 1, len(pieces)):
                 if i not in to_pop or j not in to_pop:
-                    if (pieces[i].is_valid_merge(pieces[j])):
+                    if pieces[i].is_valid_merge(pieces[j]):
                         to_pop.append(i)
                         to_pop.append(j)
                         pieces.append(self._merge_pieces(pieces[j], pieces[i]))

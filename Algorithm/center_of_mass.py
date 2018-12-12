@@ -60,6 +60,10 @@ def center_of_mass(layer_contour):
     return [int(x / number), int(y / number)]
 
 
+def distance_2d(point1, point2):
+    return math.sqrt(math.pow(point1[0] - point2[0], 2) + math.pow(point1[1] - point2[1], 2))
+
+
 def distance_3d(point1: object, point2: object) -> object:
     #print('points: ', point1, point2)
     #print('distance between points: ', math.sqrt(math.pow((point1[0] - point2[0]),2) + math.pow((point1[1] - point2[1]), 2) + math.pow((point1[2] - point2[2]), 2)))
