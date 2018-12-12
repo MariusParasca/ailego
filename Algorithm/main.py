@@ -34,11 +34,12 @@ def get_detailed_layers(model):
 
 
 if __name__ == '__main__':
-    input_pieces = import_data(os.path.join(os.path.dirname(os.path.realpath(__file__)),'input.csv'))
-    model = merge_input_pieces(input_pieces)
-    export_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'), model)
+    # input_pieces = import_data(os.path.join(os.path.dirname(os.path.realpath(__file__)),'input.csv'))
+    # model = merge_input_pieces(input_pieces)
+    # export_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'), model)
     # Portiune cod pentru cei de la metoda cu grafuri
-    # layers = read_output_from_file('E:\Dropbox\Facultate\Inteligenta artificiala\AI_Interface\input.csv')
-    # create_stability_graph(layers)
-    for layer in model.layers:
-        [print(piece) for piece in layer.merged_pieces]
+    layers = read_output_from_file('E:\Dropbox\Facultate\Inteligenta artificiala\AI_Interface\input.csv')
+    G = create_stability_graph(layers)
+    print(check_graph_stability(G))
+    # for layer in model.layers:
+    #     [print(piece) for piece in layer.merged_pieces]

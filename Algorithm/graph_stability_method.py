@@ -32,7 +32,12 @@ def create_stability_graph_old(layers_):
 
 
 def is_overlapping(x1, y1, x2, y2):
-    return max(x1, y1) >= min(x2, y2)
+    s1 = set(range(x1, y1 + 1))
+    s2 = set(range(x2, y2 + 1))
+    if s1 & s2:
+        return True
+    else:
+        return False
 
 
 def get_interval_margin(piece):
@@ -51,6 +56,7 @@ def create_nodes(G, layers_):
         for piece in layers_[i].merged_pieces:
             G.add_node(piece)
 
+
 def dfs(graph, start):
     visited = []
     visited.append(start)
@@ -68,6 +74,7 @@ def dfs(graph, start):
                     stack.add(el)
                     break
     return len(visited)
+
 
 def check_graph_stability(G):
     '''gr = nx.Graph()
@@ -95,6 +102,7 @@ def check_graph_stability(G):
             return False
     return True
 
+
 def create_stability_graph(layers_):
     G = nx.Graph()
     create_nodes(G, layers_)
@@ -104,11 +112,10 @@ def create_stability_graph(layers_):
                 piece1_x, piece1_y = get_interval_margin(piece1)
                 piece2_x, piece2_y = get_interval_margin(piece2)
                 if is_overlapping(piece1.x, piece1_x, piece2.x, piece2_x) and \
-                   is_overlapping(piece1.z, piece1_y, piece2.z, piece2_y):
+                   is_overlapping(piece1.y, piece1_y, piece2.y, piece2_y):
                     G.add_edge(piece1, piece2)
     nx.draw(G)
     plt.show()
-    #check_graph_stability(G)
     return G
 
 
@@ -122,9 +129,9 @@ def read_output_from_file(file_path):
                 continue
             data = line.split(',')
             if int(data[5]) == 0:
-                piece = Piece(int(data[0]), data[4], int(data[1]), int(data[2]), int(data[3]), False)
+                piece = Piece(int(data[0]), data[4], int(data[1]), int(data[3]), int(data[2]), False)
             else:
-                piece = Piece(int(data[0]), data[4], int(data[1]), int(data[2]), int(data[3]), True)
+                piece = Piece(int(data[0]), data[4], int(data[1]), int(data[3]), int(data[2]), True)
             if layer_number == int(data[2]):
                 piece_list.append(piece)
             else:
