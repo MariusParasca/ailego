@@ -56,14 +56,24 @@ def create_nodes(G, layers_):
         for piece in layers_[i].merged_pieces:
             G.add_node(piece)
 
+def is_on_last_layer(graph, el):
+    if len(graph[el]) == 1:
+        return True
+    return False
 
 def dfs(graph, start):
     visited = []
     visited.append(start)
     stack = set()
+
     for el in graph[start]:
-        stack.add(el)
-        break
+        if is_on_last_layer(graph, el):
+            visited.append(el)
+
+    for el in graph[start]:
+        if el not in visited:
+            stack.add(el)
+            break
 
     while stack:
         nod = stack.pop()
@@ -72,36 +82,43 @@ def dfs(graph, start):
             for el in graph[nod]:
                 if el not in visited:
                     stack.add(el)
-                    break
+    #print(visited)
     return len(visited)
 
 
 def check_graph_stability(G):
-    '''gr = nx.Graph()
-    gr.add_node('A')
+    gr = nx.Graph()
+    '''gr.add_node('A')
     gr.add_node('B')
     gr.add_node('C')
     gr.add_node('D')
     gr.add_node('E')
     gr.add_node('F')
+    gr.add_node('H')
+    gr.add_node('I')
+    gr.add_node('J')
 
-    gr.add_edge('A', 'B')
-    gr.add_edge('A', 'E')
-    gr.add_edge('B', 'C')
-    #gr.add_edge('B', 'E')
-    gr.add_edge('C', 'E')
-    gr.add_edge('C', 'D')
-    gr.add_edge('E', 'D')
-    gr.add_edge('D', 'F')
-    gr.add_edge('E', 'F')'''
+    gr.add_edge('A', 'D')
+    gr.add_edge('B', 'D')
+    gr.add_edge('B', 'E')
+    gr.add_edge('B', 'F')
+    gr.add_edge('C', 'F')
+    gr.add_edge('C', 'G')
+    gr.add_edge('D', 'H')
+    gr.add_edge('E', 'H')
+    gr.add_edge('E', 'I')
+    gr.add_edge('F', 'I')
+    gr.add_edge('F', 'J')
+    gr.add_edge('G', 'J')
+    gr.add_edge('E', 'J')
+    #gr.add_edge('A', 'E')
+    '''
     gr = G
     for node in gr.nodes:
-        #print(node)
         #print(dfs(gr, node))
         if dfs(gr, node) != len(gr.nodes):
-            return False
+            return [False, node]
     return True
-
 
 def create_stability_graph(layers_):
     G = nx.Graph()
@@ -114,8 +131,8 @@ def create_stability_graph(layers_):
                 if is_overlapping(piece1.x, piece1_x, piece2.x, piece2_x) and \
                    is_overlapping(piece1.y, piece1_y, piece2.y, piece2_y):
                     G.add_edge(piece1, piece2)
-    nx.draw(G)
-    plt.show()
+    #nx.draw(G)
+    #plt.show()
     return G
 
 
@@ -144,5 +161,3 @@ def read_output_from_file(file_path):
     layer.merged_pieces = piece_list
     layers.append(layer)
     return layers
-
-
