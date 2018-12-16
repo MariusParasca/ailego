@@ -146,7 +146,7 @@ def pop_not_relevant_points(building_contour):
                 if subpoint[1]<min_y: min_y=subpoint[1]
                 if subpoint[1]>max_y: max_y=subpoint[1]
         for useless_point in building_contour:
-            if useless_point!=[min_x,min_y,point[2]]||useless_point!=[max_x,max_y,point[2]]:
+            if useless_point!=[min_x,min_y,point[2]] or useless_point!=[max_x,max_y,point[2]]:
                 building_contour.remove(useless_point)
     print(building_contour)
     return building_contour
