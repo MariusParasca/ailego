@@ -1,7 +1,6 @@
 import math
 
-global_layer = 0
-weight = 0
+weight=0
 
 def distance_2d(point1, point2):
     return math.sqrt(math.pow(point1[0] - point2[0], 2) + math.pow(point1[1] - point2[1], 2))
@@ -21,7 +20,10 @@ def distance_3d(point1: object, point2: object) -> object:
 def is_structure_stable(layers):
     for layer in layers:
         [print('PPieeesele',piece) for piece in layer.merged_pieces]
-    contour(layers)
+    building_contour=contour(layers)
+    base=save_base(building_contour)
+    print('Centru de greutate:', center_of_mass(building_contour))
+
 
 def save_base(building_contour):
     base=list()
@@ -31,17 +33,17 @@ def save_base(building_contour):
     return base
 
 def center_of_mass(building_contour):
-    x = 0
-    y = 0
+    length = 0
+    width = 0
+    height = 0
     number = 0
 
-    for x_y in building_contour:
-        x = x + x_y[0]
-        y = y + x_y[1]
+    for point in building_contour:
+        length = length + point[0]
+        width = width + point[1]
+        height = height + point[2]
         number += 1
-    global global_layer
-    global_layer += 1
-    return [x / number, y / number, global_layer - 0.5]
+    return [length / number, width / number, height /number]
 
 
 def contour(layers):
@@ -50,10 +52,14 @@ def contour(layers):
     for layer in layers:
         for piece in layer.merged_pieces:
             print('Lalala', piece)
-            building_contour.append(list((piece.x, piece.y, piece.z)))
+            building_contour.append([piece.x, piece.y, piece.z])
             building_contour.append([piece.x, piece.y + types[piece.piece_type][1], piece.z])
             building_contour.append([piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1], piece.z])
             building_contour.append([piece.x + types[piece.piece_type][0], piece.y, piece.z])
+            building_contour.append([piece.x, piece.y, piece.z+1])
+            building_contour.append([piece.x, piece.y + types[piece.piece_type][1], piece.z+1])
+            building_contour.append([piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1], piece.z+1])
+            building_contour.append([piece.x + types[piece.piece_type][0], piece.y, piece.z+1])
         print('contour points: ', building_contour)
     return pop_not_relevant_points(building_contour)
 
@@ -75,3 +81,12 @@ def pop_not_relevant_points(building_contour):
                 building_contour.remove(useless_point)
     print(building_contour)
     return building_contour
+
+def pop_not_relevant_points_2(building_contour):
+    for point_1 in building_contour:
+        for point_2 in building_contour:
+            if point_1==point_2 and building_contour.index(point_1)!=building_contour.index(point_2):
+                building_contour.remove(point_2)
+    return building_contour
+
+
