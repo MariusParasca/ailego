@@ -1,63 +1,105 @@
 from piece import Piece
 
-
 class Layer:
 
     def __init__(self, pieces):
         self.pieces = pieces
-        self.merged_pieces = []
 
-    def _merge_pieces(self, p1, p2):
-        if p1.piece_type == 0:
-            for i in range(0, len(Piece.PIECES_TYPES)):
-                if (p1.size_y, 2) == Piece.PIECES_TYPES[i]:
-                    return Piece(i, p1.color, p1.x if p1.x < p2.x else p2.x, p1.y if p1.y < p2.y else p2.y,
-                                 p1.z if p1.z < p2.z else p2.z, not p1.orientation)
-        for i in range(6, len(Piece.PIECES_TYPES)):
-            if (2, p1.size_y) == Piece.PIECES_TYPES[i] or (2, p1.size_x) == Piece.PIECES_TYPES[i]:
-                return Piece(i, p1.color, p1.x if p1.x < p2.x else p2.x, p1.y if p1.y < p2.y else p2.y,
-                             p1.z if p1.z < p2.z else p2.z, p1.orientation)
+    def orizontal_piece_match(self, p1, p2):
+        if self.pieces[p1].x + self.pieces[p1].size_x != self.pieces[p2].x or\
+        self.pieces[p1].color != self.pieces[p2].color or\
+        self.pieces[p1].size_y > 2:
+            return -1
 
-    def merge_piece(self, merged_pieces, orientation):
-        pieces = []
-        fail_to_merge = []
-        while (1, len(merged_pieces)) not in Piece.PIECES_TYPES:
-            fail_to_merge.append(merged_pieces.pop(-1))
-        type = 0
-        for _type in range(len(Piece.PIECES_TYPES)):
-            if Piece.PIECES_TYPES[_type][0] == 1 and len(merged_pieces) == Piece.PIECES_TYPES[_type][1]:
-                type = _type
-                break
-        pieces.append(Piece(type, merged_pieces[0][3], merged_pieces[0][0], merged_pieces[0][1], merged_pieces[0][2],
-                            orientation))
-        if fail_to_merge != []:
-            pieces.append(Piece(0, fail_to_merge[0][3], fail_to_merge[0][0], fail_to_merge[0][1], fail_to_merge[0][2],
-                                orientation))
-        return pieces
+        width = self.pieces[p1].size_x + self.pieces[p2].size_x
+        widths = [t[0] for t in Piece.PIECES_TYPES_INVERT]
 
-    def merge_pieces(self, orientation):
-        layer = self.pieces
-        pieces = []
-        self.merged_pieces = []
-        self.merged_pieces.append(layer[0])
-        for i in range(1, len(layer)):
-            if (self.merged_pieces[-1][1] == layer[i][1] and self.merged_pieces[-1][0] == layer[i][0] - 1) or \
-                    (self.merged_pieces[-1][1] == layer[i][1] - 1 and self.merged_pieces[-1][0] == layer[i][0]):
-                self.merged_pieces.append(layer[i])
+        if width in widths and self.pieces[p1].size_y == self.pieces[p1].size_y:
+            return (width,self.pieces[p1].size_y)
+        return -1
+
+    def vertical_piece_match(self, p1, p2):
+        if self.pieces[p1].y + self.pieces[p1].size_y != self.pieces[p2].y or\
+        self.pieces[p1].color != self.pieces[p2].color or\
+        self.pieces[p1].size_y > 2:
+            return -1
+
+        height = self.pieces[p1].size_y + self.pieces[p2].size_y
+        heights = [t[1] for t in Piece.PIECES_TYPES_INVERT]
+
+        if height in heights and self.pieces[p1].size_x == self.pieces[p2].size_x:
+            return (self.pieces[p1].size_x,height)
+        return -1
+
+    def pieces_iteration(self):
+        i=0
+        self.pieces.sort(key = lambda p: (p.z, p.y, p.x))
+        while i < len(self.pieces)-1:
+            merged_piece_size = self.orizontal_piece_match(i,i+1)
+            if merged_piece_size != -1:
+                self.merge_pieces(i,i+1,merged_piece_size)
             else:
-                pieces += self.merge_piece(self.merged_pieces, orientation)
-                self.merged_pieces = []
-                self.merged_pieces.append(layer[i])
-        pieces += self.merge_piece(self.merged_pieces, orientation)
-        to_pop = []
-        for i in range(len(pieces) - 1):
-            for j in range(i + 1, len(pieces)):
-                if i not in to_pop or j not in to_pop:
-                    if (pieces[i].is_valid_merge(pieces[j])):
-                        to_pop.append(i)
-                        to_pop.append(j)
-                        pieces.append(self._merge_pieces(pieces[j], pieces[i]))
-        to_pop.sort()
-        while to_pop != []:
-            pieces.pop(to_pop.pop(-1))
-        self.merged_pieces = pieces
+                i=i+1
+
+        i=0
+        self.pieces.sort(key = lambda p: (p.z, p.x, p.y))
+        while i < len(self.pieces)-1:
+            merged_piece_size = self.vertical_piece_match(i,i+1)
+            if merged_piece_size != -1:
+                self.merge_pieces(i,i+1,merged_piece_size)
+            else:
+                i=i+1
+
+    def print_pieces(self):
+        for i in range(len(self.pieces)):
+            print(self.pieces[i])
+
+
+    def orizontal_piece_match_invert(self, p1, p2):
+        if self.pieces[p1].x + self.pieces[p1].size_x != self.pieces[p2].x or\
+        self.pieces[p1].color != self.pieces[p2].color or\
+        self.pieces[p1].size_x > 2:
+            return -1
+        width = self.pieces[p1].size_x + self.pieces[p2].size_x
+        widths = [t[1] for t in Piece.PIECES_TYPES_INVERT]
+
+        if width in widths and self.pieces[p1].size_y == self.pieces[p2].size_y:
+            return (width,self.pieces[p1].size_y)
+        return -1
+        
+
+    def vertical_piece_match_invert(self, p1, p2):
+        if self.pieces[p1].y + self.pieces[p1].size_y != self.pieces[p2].y or\
+        self.pieces[p1].color != self.pieces[p2].color or\
+        self.pieces[p1].size_x > 2:
+            return -1
+
+        height = self.pieces[p1].size_y + self.pieces[p2].size_y
+        heights = [t[0] for t in Piece.PIECES_TYPES_INVERT]
+
+        if height in heights and self.pieces[p1].size_x == self.pieces[p2].size_x:
+            return (self.pieces[p1].size_x,height)
+        return -1
+
+    def merge_pieces(self, p1, p2, size):
+        self.pieces[p1].set_type_by_size(size[0], size[1])
+        self.pieces.pop(p2)
+
+    def pieces_iteration_invert(self):
+        i=0
+        self.pieces.sort(key = lambda p: (p.z, p.x, p.y))
+        while i < len(self.pieces)-1:
+            merged_piece_size = self.vertical_piece_match_invert(i,i+1)
+            if merged_piece_size != -1:
+                self.merge_pieces(i,i+1,merged_piece_size)
+            else:
+                i=i+1
+
+        i=0
+        self.pieces.sort(key = lambda p: (p.z, p.y, p.x))
+        while i < len(self.pieces)-1:
+            merged_piece_size = self.orizontal_piece_match_invert(i,i+1)
+            if merged_piece_size != -1:
+                self.merge_pieces(i,i+1,merged_piece_size)
+            else:
+                i=i+1
