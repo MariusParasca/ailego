@@ -97,3 +97,40 @@ def center_of_mass_coefficient(distances):
         print('trying to get the coefficient of a structure: ', auxiliary)
         list_of_distances = auxiliary
     return list_of_distances[0]
+
+
+
+def is_structure_stable_1(layers):
+    for layer in layers:
+        [print(piece) for piece in layer.merged_pieces]
+   # centers_of_mass = break_layer(layers)
+   # print('centers of mass:', centers_of_mass)
+    #distances = []
+
+
+
+  
+def center_of_mass_1(building_contour):
+    x = 0
+    y = 0
+    number = 0
+
+    for x_y in building_contour:
+        x = x + x_y[0]
+        y = y + x_y[1]
+        number += 1
+    global global_layer
+    global_layer += 1
+    return [x / number, y / number, global_layer - 0.5]
+
+
+def contour_1(pieces):
+    building_contour = set()
+    types = ((1, 1), (1, 2), (1, 3), (1, 4), (1, 6), (1, 8), (2, 2), (2, 3), (2, 4), (2, 6), (2, 8))
+    for piece in pieces:
+        building_contour.add((piece.x, piece.y))
+        building_contour.add((piece.x, piece.y + types[piece.piece_type][1]))
+        building_contour.add((piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1]))
+        building_contour.add((piece.x + types[piece.piece_type][0], piece.y))
+    print('contour points: ', building_contour)
+    return building_contour
