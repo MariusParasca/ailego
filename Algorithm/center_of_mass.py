@@ -103,9 +103,7 @@ def center_of_mass_coefficient(distances):
 def is_structure_stable_1(layers):
     for layer in layers:
         [print(piece) for piece in layer.merged_pieces]
-   # centers_of_mass = break_layer(layers)
-   # print('centers of mass:', centers_of_mass)
-    #distances = []
+
 
 
 
@@ -125,12 +123,18 @@ def center_of_mass_1(building_contour):
 
 
 def contour_1(pieces):
-    building_contour = set()
+    building_contour = list()
     types = ((1, 1), (1, 2), (1, 3), (1, 4), (1, 6), (1, 8), (2, 2), (2, 3), (2, 4), (2, 6), (2, 8))
     for piece in pieces:
-        building_contour.add((piece.x, piece.y))
-        building_contour.add((piece.x, piece.y + types[piece.piece_type][1]))
-        building_contour.add((piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1]))
-        building_contour.add((piece.x + types[piece.piece_type][0], piece.y))
+        building_contour.append([piece.x, piece.y, piece.z])
+        building_contour.append([piece.x, piece.y + types[piece.piece_type][1],piece.z])
+        building_contour.append([piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1],piece.z])
+        building_contour.append([piece.x + types[piece.piece_type][0], piece.y,piece.z])
     print('contour points: ', building_contour)
+    pop_not_relevant_points(building_contour)
     return building_contour
+
+def pop_not_relevant_points(building_contour):
+    for i in range(0,12):
+        return 0
+
