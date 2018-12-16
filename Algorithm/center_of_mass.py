@@ -131,10 +131,24 @@ def contour_1(pieces):
         building_contour.append([piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1],piece.z])
         building_contour.append([piece.x + types[piece.piece_type][0], piece.y,piece.z])
     print('contour points: ', building_contour)
-    pop_not_relevant_points(building_contour)
-    return building_contour
+    return pop_not_relevant_points(building_contour)
 
 def pop_not_relevant_points(building_contour):
-    for i in range(0,12):
-        return 0
+    for point in building_contour:
+        min_x=50
+        min_y=50
+        max_x=0
+        max_y=0
+        for subpoint in building_contour:
+            if subpoint[2]==point[2]:
+                if subpoint[0]<min_x: min_x=subpoint[0]
+                if subpoint[0]>max_x: max_x=subpoint[0]
+                if subpoint[1]<min_y: min_y=subpoint[1]
+                if subpoint[1]>max_y: max_y=subpoint[1]
+        for useless_point in building_contour:
+            if useless_point!=[min_x,min_y,point[2]]||useless_point!=[max_x,max_y,point[2]]:
+                building_contour.remove(useless_point)
+    print(building_contour)
+    return building_contour
+
 
