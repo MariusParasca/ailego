@@ -107,6 +107,12 @@ def is_structure_stable_1(layers):
         [print('PPieeesele',piece) for piece in layer.merged_pieces]
     contour_1(layers)
 
+def save_base(building_contour):
+    base=list()
+    for point in building_contour:
+        if point[2]==0:
+            base.append(point)
+    return base
 
 def center_of_mass_1(building_contour):
     x = 0

@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8383e7df-4042-447a-9c86-2f5b08900dda" name="Default Changelist" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ailego.iml" afterPath="$PROJECT_DIR$/.idea/ailego.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AI_Interface/input.csv" afterPath="$PROJECT_DIR$/AI_Interface/input.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Algorithm/.idea/workspace.xml" afterPath="$PROJECT_DIR$/Algorithm/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Algorithm/center_of_mass.py" afterPath="$PROJECT_DIR$/Algorithm/center_of_mass.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Algorithm/input.csv" afterPath="$PROJECT_DIR$/Algorithm/input.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Algorithm/main.py" afterPath="$PROJECT_DIR$/Algorithm/main.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -82,8 +75,8 @@
       <file leaf-file-name="center_of_mass.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Algorithm/center_of_mass.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5">
-              <caret line="104" column="34" lean-forward="true" selection-start-line="104" selection-start-column="34" selection-end-line="104" selection-end-column="34" />
+            <state relative-caret-position="404">
+              <caret line="117" column="9" lean-forward="true" selection-start-line="117" selection-start-column="9" selection-end-line="117" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -395,8 +388,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Algorithm/center_of_mass.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5">
-          <caret line="104" column="34" lean-forward="true" selection-start-line="104" selection-start-column="34" selection-end-line="104" selection-end-column="34" />
+        <state relative-caret-position="404">
+          <caret line="117" column="9" lean-forward="true" selection-start-line="117" selection-start-column="9" selection-end-line="117" selection-end-column="9" />
           <folding />
         </state>
       </provider>
