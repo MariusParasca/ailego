@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
 
     # for center of masss using geometry
-    is_structure_stable_1(model.layers)
+    is_structure_stable(model.layers)
     #print('main')
     # ends here
 
