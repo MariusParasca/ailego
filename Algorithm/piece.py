@@ -67,3 +67,40 @@ class Piece:
                     txt.append((self.x+j, self.y+i, self.z))
         return txt
 
+    # returneaza coordonatele suprafatei piesei, adica ce patrate ocupa in planul 2D
+    def contact_surface(self):
+        if self.piece_type is 0:
+            return [(self.x, self.y, self.z)]
+        piece_long_size = self.PIECES_TYPES[self.piece_type][1]
+        if 1 <= self.piece_type <= 5:  # piesele de tipul 1N
+            contact_surface = []
+            if self.orientation is True:  # parcurgem pe axa X
+                for x_point in range(self.x, self.x + piece_long_size):
+                    contact_surface_point = (x_point, self.y, self.z)
+                    contact_surface.append(contact_surface_point)
+                return contact_surface
+            else:  # parcurgem pe axa Y
+                for y_point in range(self.y, self.y + piece_long_size):
+                    contact_surface_point = (self.x, y_point, self.z)
+                    contact_surface.append(contact_surface_point)
+                return contact_surface
+        else:  # piesele de tipul 2N
+            contact_surface = []
+            if self.orientation is True:  # parcurgem pe axa X
+                for x_point in range(self.x, self.x + piece_long_size):
+                    contact_surface_point = (x_point, self.y, self.z)
+                    contact_surface.append(contact_surface_point)
+                for contact_surface_point in contact_surface.copy():  # dublam suprafata
+                    new_contact_surface_point = list(contact_surface_point)
+                    new_contact_surface_point[1] += 1
+                    contact_surface.append(tuple(new_contact_surface_point))
+                return contact_surface
+            else:  # parcurgem pe axa Y
+                for y_point in range(self.y, self.y + piece_long_size):
+                    contact_surface_point = (self.x, y_point, self.z)
+                    contact_surface.append(contact_surface_point)
+                for contact_surface_point in contact_surface.copy():  # dublam suprafata
+                    new_contact_surface_point = list(contact_surface_point)
+                    new_contact_surface_point[0] += 1
+                    contact_surface.append(tuple(new_contact_surface_point))
+                return contact_surface

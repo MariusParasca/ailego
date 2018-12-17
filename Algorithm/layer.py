@@ -61,3 +61,72 @@ class Layer:
         while to_pop != []:
             pieces.pop(to_pop.pop(-1))
         self.merged_pieces = pieces
+
+    def is_stable_with_layer(self, top_layer):
+        # generez suprafetele de contact a ambelor layere
+        # la layer-ul actual mai intai tre sa fie piesa apoi coordonata
+        self_pieces_with_points_coordinates = []  # list of tuples
+        self_layer_surface = 0
+        for piece_index, self_piece in enumerate(self.pieces):
+            point_coordinates_per_piece_arr = self_piece.contact_surface()  # lista de tuple ce reprezinta coordonate
+            self_layer_surface += len(point_coordinates_per_piece_arr)
+            piece_with_point_coordinates = {
+                'piece_id': piece_index,
+                'contact_points': point_coordinates_per_piece_arr
+            }
+            self_pieces_with_points_coordinates.append(piece_with_point_coordinates)
+            # below is not used
+            # for point_coordinates in point_coordinates_per_piece_arr:
+            #     point_coordinates_with_piece = (point_coordinates, piece_index)  # ((x, y, z), piece_id)
+            #     self_pieces_with_points_coordinates.append(point_coordinates_with_piece)
+        # reprezentarea e diferita, la top layer mai intai tre sa fie coordonatele
+        top_layer_pieces_with_contact_surface_dict = {}
+        for piece_index, top_layer_piece in enumerate(top_layer.pieces):
+            point_coordinates_per_piece_arr = top_layer_piece.contact_surface()
+            # tre sa fie un dictionar cu key = coordonata in string si value piece_id
+            for point_coordinates in point_coordinates_per_piece_arr:
+                # tre de facut functie
+                string_coordinate = str(point_coordinates[0]) + '_' + \
+                                    str(point_coordinates[1])
+                top_layer_pieces_with_contact_surface_dict[string_coordinate] = piece_index
+                # not used below
+                # point_coordinates_with_piece = (point_coordinates, piece_index)  # ((x, y, z), piece_id)
+                # top_layer_pieces_with_contact_surface.append(point_coordinates_with_piece)
+
+        # pe baza layer-ul actual(self) verific daca e stabil cu cel de sus(top_layer)
+        # verific fiecare coordonata din layer-ul actual(self) cu ce piesa exista deasupra lui
+        # in layer-ul de sus(top_layer)
+        # iterez prin piese nu prin coordonate
+
+        weak_pieces_id = []
+        # pieces_ok = 0
+        for self_piece_with_points_coordinates in self_pieces_with_points_coordinates:
+            top_layer_pieces = set()
+            piece_empty_points = 0
+            piece_id = self_piece_with_points_coordinates['piece_id']
+            for point_coordinates in self_piece_with_points_coordinates['contact_points']:
+                string_coordinate = str(point_coordinates[0]) + '_' + \
+                                    str(point_coordinates[1])
+                top_layer_piece_id = top_layer_pieces_with_contact_surface_dict.get(string_coordinate)
+                if top_layer_piece_id is not None:
+                    # piesa de pe nivelul superior sa nu fie 1x1
+                    if top_layer.pieces[top_layer_piece_id].piece_type is not 0:
+                        top_layer_pieces.add(top_layer_piece_id)
+                else:
+                    piece_empty_points += 1
+            if piece_empty_points is len(self_piece_with_points_coordinates['contact_points']):
+                if self.pieces[piece_id].piece_type is not 0:
+                    weak_pieces_id.append(piece_id)
+                    continue
+            if len(top_layer_pieces) is 1:
+                if self.pieces[piece_id].piece_type is not 0:
+                    weak_pieces_id.append(piece_id)
+            # else:
+            #     pieces_ok += 1
+
+        if len(weak_pieces_id) is 0:
+            return True
+        else:
+            return weak_pieces_id
+
+

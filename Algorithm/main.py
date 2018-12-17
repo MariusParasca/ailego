@@ -1,7 +1,8 @@
 import os.path
-from file_operations import import_data, export_data
+from file_operations import import_data, export_data, import_data_into_model
 from layer import Layer
 from model import Model
+from piece import Piece
 
 
 def break_input_in_layers(input_pieces):
@@ -24,9 +25,11 @@ def merge_input_pieces(input_pieces):
 
 
 if __name__ == '__main__':
-    input_pieces = import_data(os.path.join(os.path.dirname(os.path.realpath(__file__)),'input.csv'))
-    model = merge_input_pieces(input_pieces)
-    export_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'), model)
+    # input_pieces = import_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'input.csv'))
+    # model = merge_input_pieces(input_pieces)
+    # export_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'), model)
 
-    for layer in model.model:
-        [print(piece) for piece in layer.merged_pieces]
+    # for layer in model.model:
+    #     [print(piece) for piece in layer.merged_pieces]
+    model = import_data_into_model('me_input.csv')
+    print(model.is_stable())
