@@ -1,36 +1,21 @@
 import math
 
-weight=0
-
-def distance_2d(point1, point2):
-    return math.sqrt(math.pow(point1[0] - point2[0], 2) + math.pow(point1[1] - point2[1], 2))
-
-
-def distance_3d(point1: object, point2: object) -> object:
-    print('points: ', point1, point2)
-    print('distance between points: ', math.sqrt(
-        math.pow((point1[0] - point2[0]), 2) + math.pow((point1[1] - point2[1]), 2) + math.pow((point1[2] - point2[2]),
-                                                                                               2)))
-    global weight
-    weight += 0.5
-    return math.sqrt(math.pow((point1[0] - point2[0]), 2) + math.pow((point1[1] - point2[1]), 2) + math.pow(
-        (point1[2] - point2[2] * weight), 2))
-
 
 def is_structure_stable(layers):
     for layer in layers:
-        [print('PPieeesele',piece) for piece in layer.merged_pieces]
-    building_contour=contour(layers)
-    base=save_base(building_contour)
+        [print('PPieeesele', piece) for piece in layer.merged_pieces]
+    building_contour = contour(layers)
+    base = save_base(building_contour)
     print('Centru de greutate:', center_of_mass(building_contour))
 
 
 def save_base(building_contour):
-    base=list()
+    base = list()
     for point in building_contour:
-        if point[2]==0:
+        if point[2] == 0:
             base.append(point)
     return base
+
 
 def center_of_mass(building_contour):
     length = 0
@@ -43,7 +28,7 @@ def center_of_mass(building_contour):
         width = width + point[1]
         height = height + point[2]
         number += 1
-    return [length / number, width / number, height /number]
+    return [length / number, width / number, height / number]
 
 
 def contour(layers):
@@ -81,6 +66,7 @@ def pop_not_relevant_points(building_contour):
                 building_contour.remove(useless_point)
     print(building_contour)
     return building_contour
+
 
 def pop_not_relevant_points_2(building_contour):
     for point_1 in building_contour:
