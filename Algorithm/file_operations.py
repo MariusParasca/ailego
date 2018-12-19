@@ -1,5 +1,5 @@
 import csv
-
+from piece import Piece
 
 def import_data(path):
     input_pieces = []
@@ -14,3 +14,7 @@ def export_data(path, model):
     with open(path, 'w+') as fd:
         for layer in model.layers:
             [fd.write(piece.serialize()) for piece in layer.merged_pieces]
+
+
+
+

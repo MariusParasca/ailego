@@ -41,6 +41,7 @@ if __name__ == '__main__':
 
 
     # for center of masss using geometry
+    #output_lines = import_test_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'))
     is_structure_stable(model.layers)
     #print('main')
     # ends here
