@@ -13,7 +13,7 @@ class Piece:
     # piece_type = 0
     # orientation = False
 
-    def __init__(self, piece_type, color=None, x=0, y=0, z=0, orientation=False):
+    def __init__(self, piece_type, color=None, x=0, y=0, z=0, orientation=False, pieces = []):
         if color is None:                               # deoarece in python nu este posibila supraincarcea metodelor
             piece_model = deepcopy(piece_type)          # am ales aceasta abordare pentru a putea folosi constructorul
             self.piece_type = piece_model.piece_type    # in doua moduri. Odata cand se dau toti parametrii pentru
@@ -29,6 +29,7 @@ class Piece:
             self.y = y
             self.z = z
             self.orientation = orientation
+            self.pieces = pieces
         self.set_size()
 
     def set_size(self):
@@ -45,7 +46,7 @@ class Piece:
                ", orientation=" + str(self.orientation) + ", color=" + self.color
 
     def serialize(self):
-        return str(self.piece_type) + ", " + str(self.y)  + ", " + str(self.z) + ", " + str(self.x) + \
+        return str(self.piece_type) + ", " + str(self.x)  + ", " + str(self.y) + ", " + str(self.z) + \
                ", " + self.color + ", " + ("1\n" if self.orientation else "0\n")
 
     def is_valid_merge(self, piece):
