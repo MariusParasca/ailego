@@ -1,5 +1,5 @@
 import os.path
-from Algorithm.file_operations import import_data, export_data
+from Algorithm.file_operations import *
 from Algorithm.layer import Layer
 from Algorithm.model import Model
 from Algorithm.center_of_mass import *
@@ -27,7 +27,7 @@ def merge_input_pieces(input_pieces):
 if __name__ == '__main__':
     input_pieces = import_data(os.path.join(os.path.dirname(os.path.realpath(__file__)),'input.csv'))
     model = merge_input_pieces(input_pieces)
-    export_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'), model)
+    #export_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'), model)
     array = []
     # Portiune de cod echipa cu testaterea stabilitati cu metoda grafurilor
     # for layer in model.layers:
@@ -41,8 +41,10 @@ if __name__ == '__main__':
 
 
     # for center of masss using geometry
-    #output_lines = import_test_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'))
-    is_structure_stable(model.layers)
+    output_lines = import_test_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'))
+    for line in output_lines:
+        print('aaa', line)
+    is_structure_stable(output_lines)
     #print('main')
     # ends here
 

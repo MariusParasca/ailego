@@ -2,7 +2,10 @@ def is_structure_stable(layers):
     building_contour = contour(layers)
     base = save_base(building_contour)
     base = extract_2d_from_2d(base)
-    print(base)
+    print("BASE: ", base)
+    print('Building contour before: ', building_contour)
+    building_contour = pop_not_relevant_points(building_contour)
+    print('Building contour after: ', building_contour)
     center_coordinates = center_of_mass(building_contour)
     print('Centru de greutate:', center_coordinates)
     if point_inside_polygon(center_coordinates[0], center_coordinates[1], base):
@@ -40,19 +43,34 @@ def center_of_mass(building_contour):
     return [length / number, width / number, height / number]
 
 
-def contour(layers):
+def contour(pieces):
     building_contour = list()
     types = ((1, 1), (1, 2), (1, 3), (1, 4), (1, 6), (1, 8), (2, 2), (2, 3), (2, 4), (2, 6), (2, 8))
-    for layer in layers:
-        for piece in layer.merged_pieces:
-            building_contour.append([piece.x, piece.y, piece.z])
-            building_contour.append([piece.x, piece.y + types[piece.piece_type][1], piece.z])
-            building_contour.append([piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1], piece.z])
-            building_contour.append([piece.x + types[piece.piece_type][0], piece.y, piece.z])
-            building_contour.append([piece.x, piece.y, piece.z+1])
-            building_contour.append([piece.x, piece.y + types[piece.piece_type][1], piece.z+1])
-            building_contour.append([piece.x + types[piece.piece_type][0], piece.y + types[piece.piece_type][1], piece.z+1])
-            building_contour.append([piece.x + types[piece.piece_type][0], piece.y, piece.z+1])
+    for piece in pieces:
+        if piece[4] == 0:
+            building_contour.append([piece[1], piece[2], piece[3]])
+            building_contour.append([piece[1], piece[2] + types[piece[0]][1], piece[3]])
+            building_contour.append([piece[1] + types[piece[0]][0], piece[2] + types[piece[0]][1], piece[3]])
+            building_contour.append([piece[1] + types[piece[0]][0], piece[2], piece[3]])
+
+            building_contour.append([piece[1], piece[2], piece[3] + 1])
+            building_contour.append([piece[1], piece[2] + types[piece[0]][1], piece[3] + 1])
+            building_contour.append([piece[1] + types[piece[0]][0], piece[2] + types[piece[0]][1], piece[3] + 1])
+            building_contour.append([piece[1] + types[piece[0]][0], piece[2], piece[3] + 1])
+
+            print('da')
+        else:
+            if piece[4] == 1:
+                building_contour.append([piece[1], piece[2], piece[3]])
+                building_contour.append([piece[1] + types[piece[0]][1], piece[2], piece[3]])
+                building_contour.append([piece[1] + types[piece[0]][1], piece[2] + types[piece[0]][0], piece[3]])
+                building_contour.append([piece[1], piece[2] + types[piece[0]][0], piece[3]])
+
+                building_contour.append([piece[1], piece[2], piece[3] + 1])
+                building_contour.append([piece[1] + types[piece[0]][1], piece[2], piece[3] + 1])
+                building_contour.append([piece[1] + types[piece[0]][1], piece[2] + types[piece[0]][0], piece[3] + 1])
+                building_contour.append([piece[1], piece[2] + types[piece[0]][0], piece[3] + 1])
+
     #return pop_not_relevant_points(building_contour)
     return building_contour
 
@@ -72,14 +90,16 @@ def pop_not_relevant_points(building_contour):
         for useless_point in building_contour:
             if useless_point != [min_x, min_y, point[2]] or useless_point != [max_x, max_y, point[2]]:
                 building_contour.remove(useless_point)
-    print('now: ',building_contour)
+    print('now: ', building_contour)
     return building_contour
 
 
 def pop_not_relevant_points_2(building_contour):
     for point_1 in building_contour:
         for point_2 in building_contour:
-            if point_1==point_2 and building_contour.index(point_1)!=building_contour.index(point_2):
+            #print('In pop not relevant before if: ', point_1, point_2)
+            if point_1 == point_2 and building_contour.index(point_1) != building_contour.index(point_2):
+                print('In pop not relevant: ', point_1, point_2)
                 building_contour.remove(point_2)
     return building_contour
 
