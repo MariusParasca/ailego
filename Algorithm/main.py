@@ -17,9 +17,11 @@ if __name__ == '__main__':
     pieces.sort(key = lambda p: (p.z, p.y, p.z))
     max_z = pieces[-1].z
     merged_pieces = []
-    
+
     for i in range(max_z+1):
         layer = Layer([p for p in pieces if p.z == i])
+        layer.empty_inside()
+
         if int(i%2) == 0:
             layer.pieces_iteration()
             layer.pieces_iteration()
@@ -27,8 +29,9 @@ if __name__ == '__main__':
         else:
             layer.pieces_iteration_invert()
             layer.pieces_iteration_invert()
-            layer.pieces_iteration()
+            layer.pieces_iteration() 
         layer.print_pieces()
+        print("\n")
         merged_pieces.extend(layer.pieces)
     
     export_data_by_pieces(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'), merged_pieces)
