@@ -43,6 +43,7 @@ if __name__ == '__main__':
                 layer.pieces_iteration_invert()
                 layer.pieces_iteration_invert()
                 layer.pieces_iteration()
+            first_layer = False
         else:
             aux = copy.deepcopy(layer)
             score = []
@@ -62,8 +63,8 @@ if __name__ == '__main__':
                 print_graph(G)
             score.sort(key = lambda p: p[0])
             layer = copy.deepcopy(aux)
-            apply_combination(layer, combinations[score[0][1]])
-        
+            apply_combination(layer, combinations[score[0][1]])     #crapa aici deoarece nu a gasit nici o varianta
+                                                                    #care sa dea True pentru check_graph_stability
         layer.print_pieces()
         print("\n")
         merged_pieces.extend(layer.pieces)
