@@ -117,7 +117,8 @@ def check_graph_stability(G):
     for node in gr.nodes:
         #print(dfs(gr, node))
         if dfs(gr, node) != len(gr.nodes):
-            return [False, node]
+            return False
+            #return [False, node]
     return True
 
 def create_stability_graph(layers_):
@@ -131,9 +132,14 @@ def create_stability_graph(layers_):
                 if is_overlapping(piece1.x, piece1_x, piece2.x, piece2_x) and \
                    is_overlapping(piece1.y, piece1_y, piece2.y, piece2_y):
                     G.add_edge(piece1, piece2)
+    #nx.draw(G)
+    #plt.show()
+    return G
+
+
+def print_graph(G):
     nx.draw(G)
     plt.show()
-    return G
 
 
 def read_output_from_file(file_path):
