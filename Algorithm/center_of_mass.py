@@ -1,10 +1,11 @@
+# main method for this module, called from main
 def is_structure_stable(layers):
     building_contour = contour(layers)
     base = save_base(building_contour)
     base = extract_2d_from_2d(base)
     print("BASE: ", base)
     print('Building contour before: ', building_contour)
-    building_contour = pop_not_relevant_points(building_contour)
+    #building_contour = pop_not_relevant_points(building_contour)
     print('Building contour after: ', building_contour)
     center_coordinates = center_of_mass(building_contour)
     print('Centru de greutate:', center_coordinates)
@@ -14,6 +15,7 @@ def is_structure_stable(layers):
         print("Unstable.")
 
 
+# it saves a list of points that define the base layer of the structure
 def save_base(building_contour):
     base = list()
     for point in building_contour:
@@ -22,6 +24,7 @@ def save_base(building_contour):
     return base
 
 
+# this method extracts only x and y coordinates from list with x, y, z coordinates
 def extract_2d_from_2d(list):
     new_list = []
     for i in list:
@@ -29,6 +32,8 @@ def extract_2d_from_2d(list):
     return new_list
 
 
+# this method uses a list of points (with x, y, z coordinates)
+# to calculate the center of mass of the structure defined by those points
 def center_of_mass(building_contour):
     length = 0
     width = 0
@@ -43,38 +48,40 @@ def center_of_mass(building_contour):
     return [length / number, width / number, height / number]
 
 
+# this method defines a list of points with x,y,z coordinates given the pieces
 def contour(pieces):
     building_contour = list()
     types = ((1, 1), (1, 2), (1, 3), (1, 4), (1, 6), (1, 8), (2, 2), (2, 3), (2, 4), (2, 6), (2, 8))
     for piece in pieces:
         if piece[4] == 0:
             building_contour.append([piece[1], piece[2], piece[3]])
-            building_contour.append([piece[1], piece[2] + types[piece[0]][1], piece[3]])
-            building_contour.append([piece[1] + types[piece[0]][0], piece[2] + types[piece[0]][1], piece[3]])
-            building_contour.append([piece[1] + types[piece[0]][0], piece[2], piece[3]])
+            building_contour.append([piece[1], piece[2] + types[piece[0]][0], piece[3]])
+            building_contour.append([piece[1] + types[piece[0]][1], piece[2] + types[piece[0]][0], piece[3]])
+            building_contour.append([piece[1] + types[piece[0]][1], piece[2], piece[3]])
 
             building_contour.append([piece[1], piece[2], piece[3] + 1])
-            building_contour.append([piece[1], piece[2] + types[piece[0]][1], piece[3] + 1])
-            building_contour.append([piece[1] + types[piece[0]][0], piece[2] + types[piece[0]][1], piece[3] + 1])
-            building_contour.append([piece[1] + types[piece[0]][0], piece[2], piece[3] + 1])
+            building_contour.append([piece[1], piece[2] + types[piece[0]][0], piece[3] + 1])
+            building_contour.append([piece[1] + types[piece[0]][1], piece[2] + types[piece[0]][0], piece[3] + 1])
+            building_contour.append([piece[1] + types[piece[0]][1], piece[2], piece[3] + 1])
 
             print('da')
-        else:
+        else:  #-------------------------------------------------------------------------------------------------------------?????????
             if piece[4] == 1:
                 building_contour.append([piece[1], piece[2], piece[3]])
-                building_contour.append([piece[1] + types[piece[0]][1], piece[2], piece[3]])
-                building_contour.append([piece[1] + types[piece[0]][1], piece[2] + types[piece[0]][0], piece[3]])
-                building_contour.append([piece[1], piece[2] + types[piece[0]][0], piece[3]])
+                building_contour.append([piece[1] + types[piece[0]][0], piece[2], piece[3]])
+                building_contour.append([piece[1] + types[piece[0]][0], piece[2] + types[piece[0]][1], piece[3]])
+                building_contour.append([piece[1], piece[2] + types[piece[0]][1], piece[3]])
 
                 building_contour.append([piece[1], piece[2], piece[3] + 1])
-                building_contour.append([piece[1] + types[piece[0]][1], piece[2], piece[3] + 1])
-                building_contour.append([piece[1] + types[piece[0]][1], piece[2] + types[piece[0]][0], piece[3] + 1])
-                building_contour.append([piece[1], piece[2] + types[piece[0]][0], piece[3] + 1])
+                building_contour.append([piece[1] + types[piece[0]][0], piece[2], piece[3] + 1])
+                building_contour.append([piece[1] + types[piece[0]][0], piece[2] + types[piece[0]][1], piece[3] + 1])
+                building_contour.append([piece[1], piece[2] + types[piece[0]][1], piece[3] + 1])
 
     #return pop_not_relevant_points(building_contour)
     return building_contour
 
 
+# removes points that are not relevant to the center of mass
 def pop_not_relevant_points(building_contour):
     for point in building_contour:
         min_x = 50
@@ -94,6 +101,7 @@ def pop_not_relevant_points(building_contour):
     return building_contour
 
 
+# another method to remove points that are not relevant to the center of mass
 def pop_not_relevant_points_2(building_contour):
     for point_1 in building_contour:
         for point_2 in building_contour:
@@ -104,6 +112,7 @@ def pop_not_relevant_points_2(building_contour):
     return building_contour
 
 
+# method to chech if a point with x,y coordinates is inside a given polygon
 def point_inside_polygon(x, y, poly, include_edges=True):
     '''
     Test if point (x,y) is inside polygon poly.

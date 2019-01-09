@@ -42,13 +42,11 @@ if __name__ == '__main__':
 
     # for center of masss using geometry
     output_lines = import_test_data(os.path.join(os.path.dirname(os.path.realpath(__file__)), r'..\AI_Interface\input.csv'))
-    for line in output_lines:
-        print('aaa', line)
     is_structure_stable(output_lines)
     #print('main')
     # ends here
 
 
 
-    for layer in model.layers:
-       [print(piece) for piece in layer.merged_pieces]
+    #for layer in model.layers:
+    #   [print(piece) for piece in layer.merged_pieces]
