@@ -42,11 +42,11 @@ def is_overlapping(x1, y1, x2, y2):
 
 def get_interval_margin(piece):
     if piece.orientation:
-        piece_x = Piece.PIECES_TYPES[piece.piece_type][1] - 1 + piece.x
-        piece_y = Piece.PIECES_TYPES[piece.piece_type][0] - 1 + piece.y
+        piece_x = Piece.PIECES_TYPES_INVERT[piece.piece_type][1] - 1 + piece.x
+        piece_y = Piece.PIECES_TYPES_INVERT[piece.piece_type][0] - 1 + piece.y
     else:
-        piece_x = Piece.PIECES_TYPES[piece.piece_type][0] - 1 + piece.x
-        piece_y = Piece.PIECES_TYPES[piece.piece_type][1] - 1 + piece.y
+        piece_x = Piece.PIECES_TYPES_INVERT[piece.piece_type][0] - 1 + piece.x
+        piece_y = Piece.PIECES_TYPES_INVERT[piece.piece_type][1] - 1 + piece.y
 
     return piece_x, piece_y
 
@@ -131,8 +131,8 @@ def create_stability_graph(layers_):
                 if is_overlapping(piece1.x, piece1_x, piece2.x, piece2_x) and \
                    is_overlapping(piece1.y, piece1_y, piece2.y, piece2_y):
                     G.add_edge(piece1, piece2)
-    #nx.draw(G)
-    #plt.show()
+    nx.draw(G)
+    plt.show()
     return G
 
 
@@ -157,6 +157,24 @@ def read_output_from_file(file_path):
                 layers.append(layer)
                 layer_number += 1
                 piece_list = [piece]
+    layer = Layer([])
+    layer.merged_pieces = piece_list
+    layers.append(layer)
+    return layers
+
+def read_from_list_of_pieces(pieces):
+    layers = []
+    piece_list = []
+    layer_number = 0
+    for piece in pieces:
+        if layer_number == piece.z:
+            piece_list.append(piece)
+        else:
+            layer = Layer([])
+            layer.merged_pieces = piece_list
+            layers.append(layer)
+            layer_number += 1
+            piece_list = [piece]
     layer = Layer([])
     layer.merged_pieces = piece_list
     layers.append(layer)

@@ -14,3 +14,7 @@ def export_data(path, model):
     with open(path, 'w+') as fd:
         for layer in model.layers:
             [fd.write(piece.serialize()) for piece in layer.merged_pieces]
+
+def export_data_by_pieces(path, pieces):
+    with open(path, 'w+') as fd:
+        [fd.write(piece.serialize()) for piece in pieces]
