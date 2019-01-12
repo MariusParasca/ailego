@@ -220,42 +220,7 @@ def check_graph_stability_new(G):
 
 
 def graph_stability_new_with_score(G):
-    gr = nx.Graph()
-    gr.add_node('A')
-    gr.add_node('B')
-    gr.add_node('C')
-    gr.add_node('D')
-    gr.add_node('E')
-    gr.add_node('F')
-    gr.add_node('H')
-    gr.add_node('I')
-    gr.add_node('J')
-    gr.add_node('G')
-    gr.add_node('K')
-    gr.add_node('L')
-    gr.add_node('M')
-
-    gr.add_edge('A', 'D')
-    gr.add_edge('B', 'D')
-    gr.add_edge('B', 'E')
-    gr.add_edge('B', 'F')
-    gr.add_edge('C', 'F')
-    gr.add_edge('C', 'G')
-    gr.add_edge('D', 'H')
-    gr.add_edge('E', 'H')
-    gr.add_edge('E', 'I')
-    gr.add_edge('F', 'I')
-    gr.add_edge('F', 'J')
-    gr.add_edge('G', 'J')
-    gr.add_edge('E', 'J')
-    gr.add_edge('A', 'E')
-
-    gr.add_edge('F', 'K')
-    gr.add_edge('K', 'L')
-    gr.add_edge('L', 'M')
-
-
-    #gr = G
+    gr = G
     suma = 0
     total = len(gr.nodes) * len(gr.nodes)
     for node in gr.nodes:

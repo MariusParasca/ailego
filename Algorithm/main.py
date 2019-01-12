@@ -55,14 +55,12 @@ if __name__ == '__main__':
                 merge_test.extend(layer.pieces)
                 layers = read_from_list_of_pieces(merge_test)
                 G = create_stability_graph(layers)
-                '''if(check_graph_stability_new(G) == True):
+                if(check_graph_stability_new(G) == True):
                     unit = []
                     unit.append(len(layer.pieces))
                     unit.append(j)
                     score.append(unit)
-                print_graph(G)'''
-                print(graph_stability_new_with_score(G))
-                break
+                print_graph(G)
             score.sort(key = lambda p: p[0])
             layer = copy.deepcopy(aux)
             apply_combination(layer, combinations[score[0][1]])     #crapa aici deoarece nu a gasit nici o varianta
