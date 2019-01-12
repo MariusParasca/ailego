@@ -85,6 +85,56 @@ def dfs(graph, start):
     #print(visited)
     return len(visited)
 
+#DFS Varianta Noua#################################################################################
+def are_isolated_nodes(graph, el, start):
+    visited = []
+    result = []
+    #print(el, graph[el])
+    if len(graph[el]) == 1:
+        visited.append(el)
+    else:
+        for neighbor in graph[el]:
+            if neighbor != start and is_on_last_layer(graph, neighbor) == True:
+                visited.append(neighbor)
+            else:
+                if neighbor != start and is_on_last_layer(graph, neighbor) == False:
+                    result.append(False)
+                    result.append([])
+                    return result
+
+    result.append(True)
+    result.append(visited)
+    return result;
+
+
+def dfs_new(graph, start):
+    visited = []
+    visited.append(start)
+    stack = set()
+
+    for el in graph[start]:
+        result = are_isolated_nodes(graph, el, start)
+        if result[0] == True:
+            if el not in result[1]:
+                #visited.append(el)
+                stack.add(el)
+            visited.extend(result[1])
+
+    for el in graph[start]:
+        if el not in visited:
+            stack.add(el)
+            break
+
+    while stack:
+        nod = stack.pop()
+        if nod not in visited:
+            visited.append(nod)
+            for el in graph[nod]:
+                if el not in visited:
+                    stack.add(el)
+    print(visited)
+    return len(visited)
+
 
 def check_graph_stability(G):
     gr = nx.Graph()
@@ -97,7 +147,8 @@ def check_graph_stability(G):
     gr.add_node('H')
     gr.add_node('I')
     gr.add_node('J')
-
+    gr.add_node('G')
+    
     gr.add_edge('A', 'D')
     gr.add_edge('B', 'D')
     gr.add_edge('B', 'E')
@@ -117,6 +168,52 @@ def check_graph_stability(G):
     for node in gr.nodes:
         #print(dfs(gr, node))
         if dfs(gr, node) != len(gr.nodes):
+            return False
+            #return [False, node]
+    return True
+
+def check_graph_stability_new(G):
+    '''
+    gr = nx.Graph()
+    gr.add_node('A')
+    gr.add_node('B')
+    gr.add_node('C')
+    gr.add_node('D')
+    gr.add_node('E')
+    gr.add_node('F')
+    gr.add_node('H')
+    gr.add_node('I')
+    gr.add_node('J')
+    gr.add_node('G')
+    gr.add_node('K')
+    gr.add_node('L')
+    gr.add_node('M')
+    #gr.add_node('N')
+
+    gr.add_edge('A', 'D')
+    gr.add_edge('B', 'D')
+    gr.add_edge('B', 'E')
+    gr.add_edge('B', 'F')
+    gr.add_edge('C', 'F')
+    gr.add_edge('C', 'G')
+    gr.add_edge('D', 'H')
+    gr.add_edge('E', 'H')
+    gr.add_edge('E', 'I')
+    gr.add_edge('F', 'I')
+    gr.add_edge('F', 'J')
+    gr.add_edge('G', 'J')
+    gr.add_edge('E', 'J')
+    gr.add_edge('A', 'E')
+    gr.add_edge('J', 'K')
+    gr.add_edge('K', 'L')
+    gr.add_edge('K', 'M')
+    #gr.add_edge('L', 'N')
+    '''
+    gr = G
+    for node in gr.nodes:
+        #rint(dfs_new(gr, node))
+        print (node)
+        if dfs_new(gr, node) != len(gr.nodes):
             return False
             #return [False, node]
     return True

@@ -55,7 +55,7 @@ if __name__ == '__main__':
                 merge_test.extend(layer.pieces)
                 layers = read_from_list_of_pieces(merge_test)
                 G = create_stability_graph(layers)
-                if(check_graph_stability(G) == True):
+                if(check_graph_stability_new(G) == True):
                     unit = []
                     unit.append(len(layer.pieces))
                     unit.append(j)
