@@ -82,7 +82,7 @@ def dfs(graph, start):
             for el in graph[nod]:
                 if el not in visited:
                     stack.add(el)
-    #print(visited)
+    print(visited)
     return len(visited)
 
 #DFS Varianta Noua#################################################################################
@@ -218,67 +218,113 @@ def check_graph_stability_new(G):
             #return [False, node]
     return True
 
+
+def graph_stability_new_with_score(G):
+    gr = nx.Graph()
+    gr.add_node('A')
+    gr.add_node('B')
+    gr.add_node('C')
+    gr.add_node('D')
+    gr.add_node('E')
+    gr.add_node('F')
+    gr.add_node('H')
+    gr.add_node('I')
+    gr.add_node('J')
+    gr.add_node('G')
+    gr.add_node('K')
+    gr.add_node('L')
+    gr.add_node('M')
+
+    gr.add_edge('A', 'D')
+    gr.add_edge('B', 'D')
+    gr.add_edge('B', 'E')
+    gr.add_edge('B', 'F')
+    gr.add_edge('C', 'F')
+    gr.add_edge('C', 'G')
+    gr.add_edge('D', 'H')
+    gr.add_edge('E', 'H')
+    gr.add_edge('E', 'I')
+    gr.add_edge('F', 'I')
+    gr.add_edge('F', 'J')
+    gr.add_edge('G', 'J')
+    gr.add_edge('E', 'J')
+    gr.add_edge('A', 'E')
+
+    gr.add_edge('F', 'K')
+    gr.add_edge('K', 'L')
+    gr.add_edge('L', 'M')
+
+
+    #gr = G
+    suma = 0
+    total = len(gr.nodes) * len(gr.nodes)
+    for node in gr.nodes:
+        if(dfs(gr, node) == len(gr.nodes)):
+            suma += dfs(gr, node)
+        print (suma)
+    return (suma * 100) / total
+
 def create_stability_graph(layers_):
-    G = nx.Graph()
-    create_nodes(G, layers_)
-    for i in range(0, len(layers_) - 1):
-        for piece1 in layers_[i].merged_pieces:
-            for piece2 in layers_[i + 1].merged_pieces:
-                piece1_x, piece1_y = get_interval_margin(piece1)
-                piece2_x, piece2_y = get_interval_margin(piece2)
-                if is_overlapping(piece1.x, piece1_x, piece2.x, piece2_x) and \
-                   is_overlapping(piece1.y, piece1_y, piece2.y, piece2_y):
-                    G.add_edge(piece1, piece2)
-    #nx.draw(G)
-    #plt.show()
-    return G
+ G = nx.Graph()
+ create_nodes(G, layers_)
+ for i in range(0, len(layers_) - 1):
+     for piece1 in layers_[i].merged_pieces:
+         for piece2 in layers_[i + 1].merged_pieces:
+             piece1_x, piece1_y = get_interval_margin(piece1)
+             piece2_x, piece2_y = get_interval_margin(piece2)
+             if is_overlapping(piece1.x, piece1_x, piece2.x, piece2_x) and \
+                is_overlapping(piece1.y, piece1_y, piece2.y, piece2_y):
+                 G.add_edge(piece1, piece2)
+ #nx.draw(G)
+ #plt.show()
+ return G
 
 
 def print_graph(G):
-    nx.draw(G)
-    plt.show()
+ nx.draw(G)
+ plt.show()
 
 
 def read_output_from_file(file_path):
-    layers = []
-    piece_list = []
-    layer_number = 0
-    with open(file_path) as fd:
-        for line in fd.readlines():
-            if not line.strip():
-                continue
-            data = line.split(',')
-            if int(data[5]) == 0:
-                piece = Piece(int(data[0]), data[4], int(data[1]), int(data[3]), int(data[2]), False)
-            else:
-                piece = Piece(int(data[0]), data[4], int(data[1]), int(data[3]), int(data[2]), True)
-            if layer_number == int(data[2]):
-                piece_list.append(piece)
-            else:
-                layer = Layer([])
-                layer.merged_pieces = piece_list
-                layers.append(layer)
-                layer_number += 1
-                piece_list = [piece]
-    layer = Layer([])
-    layer.merged_pieces = piece_list
-    layers.append(layer)
-    return layers
+ layers = []
+ piece_list = []
+ layer_number = 0
+ with open(file_path) as fd:
+     for line in fd.readlines():
+         if not line.strip():
+             continue
+         data = line.split(',')
+         if int(data[5]) == 0:
+             piece = Piece(int(data[0]), data[4], int(data[1]), int(data[3]), int(data[2]), False)
+         else:
+             piece = Piece(int(data[0]), data[4], int(data[1]), int(data[3]), int(data[2]), True)
+         if layer_number == int(data[2]):
+             piece_list.append(piece)
+         else:
+             layer = Layer([])
+             layer.merged_pieces = piece_list
+             layers.append(layer)
+             layer_number += 1
+             piece_list = [piece]
+ layer = Layer([])
+ layer.merged_pieces = piece_list
+ layers.append(layer)
+ return layers
 
 def read_from_list_of_pieces(pieces):
-    layers = []
-    piece_list = []
-    layer_number = 0
-    for piece in pieces:
-        if layer_number == piece.z:
-            piece_list.append(piece)
-        else:
-            layer = Layer([])
-            layer.merged_pieces = piece_list
-            layers.append(layer)
-            layer_number += 1
-            piece_list = [piece]
-    layer = Layer([])
-    layer.merged_pieces = piece_list
-    layers.append(layer)
-    return layers
+ layers = []
+ piece_list = []
+ layer_number = 0
+ for piece in pieces:
+     if layer_number == piece.z:
+         piece_list.append(piece)
+     else:
+         layer = Layer([])
+         layer.merged_pieces = piece_list
+         layers.append(layer)
+         layer_number += 1
+         piece_list = [piece]
+ layer = Layer([])
+ layer.merged_pieces = piece_list
+ layers.append(layer)
+ return layers
