@@ -104,8 +104,9 @@ class Layer:
                 self.merge_pieces(i,i+1,merged_piece_size)
             else:
                 i=i+1
-        
-    def empty_inside(self):
+
+    
+    def empty_inside_first(self):
         self.pieces.sort(key = lambda p: (p.z, p.y, p.x))
         useless_pieces = []
         i=-1
@@ -115,11 +116,69 @@ class Layer:
             #    if p.x == self.pieces[i].x and p.y == self.pieces[i].y:
             #        continue
             
-            #if self.pieces[i].x%8 == 0 or\
-            #    self.pieces[i].y%8 == 0 or\
-            #    (self.pieces[i].x+1)%8 == 0 or\
-            #    (self.pieces[i].y+1)%8 == 0:
-            #        continue
+            if self.pieces[i].x%8 == 0 or\
+                self.pieces[i].y%8 == 0 or\
+                (self.pieces[i].x+1)%8 == 0 or\
+                (self.pieces[i].y+1)%8 == 0:
+                    continue
+            j=0
+            k=0
+            while j<len(self.pieces):
+                if self.pieces[i].x-2 == self.pieces[j].x and\
+                self.pieces[i].y-2 == self.pieces[j].y:
+                    k=k+1
+                if self.pieces[i].x+2 == self.pieces[j].x and\
+                self.pieces[i].y-2 == self.pieces[j].y:
+                    k=k+1
+                if self.pieces[i].x-2 == self.pieces[j].x and\
+                self.pieces[i].y+2 == self.pieces[j].y:
+                    k=k+1
+                if self.pieces[i].x+2 == self.pieces[j].x and\
+                self.pieces[i].y+2 == self.pieces[j].y:
+                    k=k+1
+                
+                if self.pieces[i].x == self.pieces[j].x and\
+                self.pieces[i].y+2 == self.pieces[j].y:
+                    k=k+1
+                
+                if self.pieces[i].x+2 == self.pieces[j].x and\
+                self.pieces[i].y == self.pieces[j].y:
+                    k=k+1
+                
+                if self.pieces[i].x == self.pieces[j].x and\
+                self.pieces[i].y-2 == self.pieces[j].y:
+                    k=k+1
+                
+                if self.pieces[i].x-2 == self.pieces[j].x and\
+                self.pieces[i].y == self.pieces[j].y:
+                    k=k+1
+
+                if k == 8:
+                    useless_pieces.append(i)
+                    break
+                j=j+1
+        
+        while len(useless_pieces) > 0:
+            del self.pieces[useless_pieces[0]]
+            del useless_pieces[0]
+            useless_pieces = [x-1 for x in useless_pieces]
+        f=5
+    
+    def empty_inside(self,layer2):
+        self.pieces.sort(key = lambda p: (p.z, p.y, p.x))
+        useless_pieces = []
+        i=-1
+        while i<len(self.pieces)-1:
+            i=i+1
+            for p in layer2.pieces:
+                if p.x == self.pieces[i].x and p.y == self.pieces[i].y:
+                    continue
+            
+            if (self.pieces[i].x)%8 == 0 or\
+                (self.pieces[i].y)%8 == 0 or\
+                (self.pieces[i].x-1)%8 == 0 or\
+                (self.pieces[i].y-1)%8 == 0:
+                    continue
             j=0
             k=0
             while j<len(self.pieces):
