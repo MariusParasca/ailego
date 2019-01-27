@@ -82,14 +82,12 @@ def dfs(graph, start):
             for el in graph[nod]:
                 if el not in visited:
                     stack.add(el)
-    print(visited)
     return len(visited)
 
 #DFS Varianta Noua#################################################################################
 def are_isolated_nodes(graph, el, start):
     visited = []
     result = []
-    #print(el, graph[el])
     if len(graph[el]) == 1:
         visited.append(el)
     else:
@@ -116,7 +114,6 @@ def dfs_new(graph, start):
         result = are_isolated_nodes(graph, el, start)
         if result[0] == True:
             if el not in result[1]:
-                #visited.append(el)
                 stack.add(el)
             visited.extend(result[1])
 
@@ -132,90 +129,22 @@ def dfs_new(graph, start):
             for el in graph[nod]:
                 if el not in visited:
                     stack.add(el)
-    print(visited)
     return len(visited)
 
 
 def check_graph_stability(G):
-    gr = nx.Graph()
-    '''gr.add_node('A')
-    gr.add_node('B')
-    gr.add_node('C')
-    gr.add_node('D')
-    gr.add_node('E')
-    gr.add_node('F')
-    gr.add_node('H')
-    gr.add_node('I')
-    gr.add_node('J')
-    gr.add_node('G')
-    
-    gr.add_edge('A', 'D')
-    gr.add_edge('B', 'D')
-    gr.add_edge('B', 'E')
-    gr.add_edge('B', 'F')
-    gr.add_edge('C', 'F')
-    gr.add_edge('C', 'G')
-    gr.add_edge('D', 'H')
-    gr.add_edge('E', 'H')
-    gr.add_edge('E', 'I')
-    gr.add_edge('F', 'I')
-    gr.add_edge('F', 'J')
-    gr.add_edge('G', 'J')
-    gr.add_edge('E', 'J')
-    #gr.add_edge('A', 'E')
-    '''
     gr = G
     for node in gr.nodes:
-        #print(dfs(gr, node))
         if dfs(gr, node) != len(gr.nodes):
             return False
-            #return [False, node]
     return True
 
 def check_graph_stability_new(G):
-    '''
-    gr = nx.Graph()
-    gr.add_node('A')
-    gr.add_node('B')
-    gr.add_node('C')
-    gr.add_node('D')
-    gr.add_node('E')
-    gr.add_node('F')
-    gr.add_node('H')
-    gr.add_node('I')
-    gr.add_node('J')
-    gr.add_node('G')
-    gr.add_node('K')
-    gr.add_node('L')
-    gr.add_node('M')
-    #gr.add_node('N')
-
-    gr.add_edge('A', 'D')
-    gr.add_edge('B', 'D')
-    gr.add_edge('B', 'E')
-    gr.add_edge('B', 'F')
-    gr.add_edge('C', 'F')
-    gr.add_edge('C', 'G')
-    gr.add_edge('D', 'H')
-    gr.add_edge('E', 'H')
-    gr.add_edge('E', 'I')
-    gr.add_edge('F', 'I')
-    gr.add_edge('F', 'J')
-    gr.add_edge('G', 'J')
-    gr.add_edge('E', 'J')
-    gr.add_edge('A', 'E')
-    gr.add_edge('J', 'K')
-    gr.add_edge('K', 'L')
-    gr.add_edge('K', 'M')
-    #gr.add_edge('L', 'N')
-    '''
     gr = G
     for node in gr.nodes:
-        #rint(dfs_new(gr, node))
-        print (node)
+        # print (node)
         if dfs_new(gr, node) != len(gr.nodes):
             return False
-            #return [False, node]
     return True
 
 
@@ -226,13 +155,12 @@ def graph_stability_new_with_score(G):
     for node in gr.nodes:
         if(dfs(gr, node) == len(gr.nodes)):
             suma += dfs(gr, node)
-        print (suma)
     return (suma * 100) / total
 
 def create_stability_graph(layers_):
- G = nx.Graph()
- create_nodes(G, layers_)
- for i in range(0, len(layers_) - 1):
+    G = nx.Graph()
+    create_nodes(G, layers_)
+    for i in range(0, len(layers_) - 1):
      for piece1 in layers_[i].merged_pieces:
          for piece2 in layers_[i + 1].merged_pieces:
              piece1_x, piece1_y = get_interval_margin(piece1)
@@ -240,21 +168,19 @@ def create_stability_graph(layers_):
              if is_overlapping(piece1.x, piece1_x, piece2.x, piece2_x) and \
                 is_overlapping(piece1.y, piece1_y, piece2.y, piece2_y):
                  G.add_edge(piece1, piece2)
- #nx.draw(G)
- #plt.show()
- return G
+    return G
 
 
 def print_graph(G):
- nx.draw(G)
- plt.show()
+    nx.draw(G)
+    plt.show()
 
 
 def read_output_from_file(file_path):
- layers = []
- piece_list = []
- layer_number = 0
- with open(file_path) as fd:
+    layers = []
+    piece_list = []
+    layer_number = 0
+    with open(file_path) as fd:
      for line in fd.readlines():
          if not line.strip():
              continue
@@ -271,16 +197,16 @@ def read_output_from_file(file_path):
              layers.append(layer)
              layer_number += 1
              piece_list = [piece]
- layer = Layer([])
- layer.merged_pieces = piece_list
- layers.append(layer)
- return layers
+    layer = Layer([])
+    layer.merged_pieces = piece_list
+    layers.append(layer)
+    return layers
 
 def read_from_list_of_pieces(pieces):
- layers = []
- piece_list = []
- layer_number = 0
- for piece in pieces:
+    layers = []
+    piece_list = []
+    layer_number = 0
+    for piece in pieces:
      if layer_number == piece.z:
          piece_list.append(piece)
      else:
@@ -289,7 +215,7 @@ def read_from_list_of_pieces(pieces):
          layers.append(layer)
          layer_number += 1
          piece_list = [piece]
- layer = Layer([])
- layer.merged_pieces = piece_list
- layers.append(layer)
- return layers
+    layer = Layer([])
+    layer.merged_pieces = piece_list
+    layers.append(layer)
+    return layers

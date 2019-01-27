@@ -221,8 +221,3 @@ class Layer:
             del useless_pieces[0]
             useless_pieces = [x-1 for x in useless_pieces]
         f=5
-                
-                
-                
-                
-                
